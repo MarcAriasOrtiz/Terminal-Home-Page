@@ -1,0 +1,900 @@
+/* Hallmark · shape: app screen · genre: atmospheric · theme: locked (docs/DESIGN.md) · redesign: full · v2.0.0 */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 · weakest: R, 31 rounded expertise pills and 3 cramped duty columns replaced with a hairline specification matrix and full-measure duty rows */
+
+.resume {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 8px 32px 64px;
+}
+
+.resume__nav {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin: 0 -32px 8px;
+  padding: 12px 32px;
+  background: var(--c-bg-nav);
+  border-bottom: 1px solid var(--c-border);
+}
+
+.resume__nav-link {
+  padding: 4px 0;
+  color: var(--c-slate);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  white-space: nowrap;
+}
+
+.resume__nav-link.is-current,
+.resume__nav-link:hover {
+  color: var(--c-green);
+}
+
+/* Hero — Split Lockup */
+.resume__hero {
+  padding: 36px 0 40px;
+  border-bottom: 1px solid var(--c-border-strong);
+}
+
+.resume__hero-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.resume__name {
+  margin: 0;
+  color: var(--c-white);
+  font-size: clamp(2.5rem, 6vw, 4.25rem);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+
+.resume__hero-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  padding: 12px 16px;
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  background: var(--c-surface);
+  color: var(--c-white);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+}
+
+.resume__role {
+  color: var(--c-green);
+  font-weight: 600;
+}
+
+.resume__location {
+  color: var(--c-cyan);
+}
+
+.resume__hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 32px;
+  margin-top: 32px;
+  align-items: start;
+}
+
+.resume__hero-lead {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.resume__lead-p {
+  margin: 0;
+  font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+  line-height: 1.5;
+  color: var(--c-white);
+  font-weight: 500;
+}
+
+.resume__summary {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 65ch;
+}
+
+.resume__summary p,
+.resume p {
+  margin: 0;
+  color: var(--c-white);
+  line-height: 1.65;
+}
+
+.resume__summary p {
+  color: var(--c-slate);
+}
+
+.resume__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.resume__action {
+  padding: 8px 16px;
+  border: 1px solid var(--c-border-accent);
+  border-radius: 6px;
+  color: var(--c-cyan);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.resume__action--primary {
+  background: var(--c-green);
+  border-color: var(--c-green);
+  color: var(--c-ink-on-accent);
+  font-weight: 600;
+}
+
+.resume__action--primary:hover {
+  background: var(--c-cyan);
+  border-color: var(--c-cyan);
+  color: var(--c-ink-on-accent);
+}
+
+.resume__action--quiet {
+  border-color: var(--c-border);
+  color: var(--c-slate);
+}
+
+.resume__action:not(.resume__action--primary):hover {
+  color: var(--c-white);
+  background: var(--c-tint-cyan);
+}
+
+.resume a:focus-visible,
+.resume button:focus-visible {
+  outline: 2px solid var(--c-cyan);
+  outline-offset: 2px;
+}
+
+/* Sections */
+.resume__section {
+  padding-top: 56px;
+  scroll-margin-top: 56px;
+}
+
+.resume__section-head {
+  margin-bottom: 24px;
+}
+
+.resume__h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0;
+  color: var(--c-white);
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.resume__index {
+  color: var(--c-green);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.resume .resume__lede {
+  max-width: 62ch;
+  margin: 8px 0 0;
+  color: var(--c-slate);
+}
+
+/* 01 — Confluence (Signature Object) */
+.confluence {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 20px;
+}
+
+.confluence__left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.confluence__stage {
+  position: relative;
+  min-height: 460px;
+  border: 1px solid var(--c-border-strong);
+  border-radius: 12px;
+  background: var(--c-bg);
+  overflow: hidden;
+}
+
+.confluence__rivers {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.confluence__rivers path {
+  fill: none;
+  transition: opacity 0.32s ease-out, stroke-width 0.32s ease-out;
+}
+
+.confluence__seg {
+  stroke-linecap: butt;
+  stroke-dasharray: 8 12;
+  animation: confluence-dash 1.2s linear infinite;
+}
+
+.confluence__stage:hover .confluence__seg,
+.confluence__stage:focus-within .confluence__seg {
+  animation-play-state: paused;
+}
+
+@keyframes confluence-dash {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confluence__seg {
+    animation: none;
+    stroke-dasharray: none;
+  }
+}
+
+.confluence__streams {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  bottom: 16px;
+  width: min(216px, 28%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 8px;
+}
+
+.confluence__stream {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 8px 12px;
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  background: var(--c-bg-stream);
+  color: var(--c-white);
+  text-align: left;
+  cursor: pointer;
+  font-size: var(--fs-small);
+}
+
+.confluence__stream-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--c-cyan);
+}
+
+.confluence__stream-title {
+  font-weight: 600;
+}
+
+.confluence__stream small {
+  color: var(--c-slate);
+  font-size: 11px;
+}
+
+.confluence__stream:hover {
+  border-color: var(--c-border-cyan-hover);
+  background: var(--c-bg-stream-hover);
+}
+
+.confluence__stream.is-active {
+  border-color: rgb(var(--river-color));
+  box-shadow: 0 0 12px color-mix(in srgb, rgb(var(--river-color)) 28%, transparent);
+}
+
+.confluence__stream:focus-visible,
+.confluence__output:focus-visible,
+.confluence__run:focus-visible {
+  outline: 2px solid var(--c-cyan);
+  outline-offset: 2px;
+}
+
+.confluence__output {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(196px, 24%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 16px;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-green);
+  border-radius: 8px;
+  color: var(--c-white);
+  text-align: left;
+  cursor: pointer;
+}
+
+.confluence__output-tag {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  color: var(--c-green);
+}
+
+.confluence__output-name {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.confluence__output-status {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--c-green);
+}
+
+.confluence__output-status.is-building {
+  color: var(--c-slate);
+}
+
+.confluence__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.confluence__hint {
+  color: var(--c-slate);
+  font-size: var(--fs-small);
+}
+
+.confluence__run {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  border: 1px solid var(--c-border-accent);
+  border-radius: 6px;
+  color: var(--c-cyan);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  white-space: nowrap;
+}
+
+.confluence__run:hover {
+  color: var(--c-white);
+  background: var(--c-tint-cyan);
+}
+
+.confluence__panel {
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid var(--c-border-strong);
+  border-top: 2px solid var(--c-green);
+  border-radius: 0 0 12px 12px;
+  background: var(--c-surface);
+  color: var(--c-white);
+}
+
+.confluence__panel-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.confluence__panel h3 {
+  margin: 0;
+  color: var(--c-white);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.confluence__code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--c-green);
+}
+
+.confluence__panel > p {
+  margin: 0;
+  color: var(--c-slate);
+  line-height: 1.6;
+}
+
+.confluence__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.confluence__tag {
+  padding: 4px 8px;
+  border: 1px solid var(--c-border);
+  border-radius: 4px;
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+  color: var(--c-cyan);
+}
+
+.confluence__term {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  line-height: 1.6;
+  color: var(--c-white);
+  overflow-wrap: anywhere;
+}
+
+.confluence__term .confluence__dim {
+  color: var(--c-slate);
+}
+
+.confluence__term .confluence__ok {
+  color: var(--c-cyan);
+}
+
+.confluence__term .confluence__arrow {
+  color: var(--c-green);
+}
+
+.confluence__print {
+  display: none;
+}
+
+/* 02 — Experience Timeline & Wide Duty Rows */
+.resume__timeline {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--c-border-strong);
+}
+
+.resume__role-block {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 28px;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.resume__role-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: var(--font-mono);
+}
+
+.resume__period {
+  color: var(--c-green);
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.resume__place {
+  color: var(--c-slate);
+  font-size: var(--fs-xs);
+}
+
+.resume__role-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.resume__company {
+  margin: 0;
+  color: var(--c-white);
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.resume__role-block--current .resume__company {
+  font-size: 1.75rem;
+}
+
+.resume__title {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--c-cyan);
+}
+
+.resume__role-summary {
+  max-width: 65ch;
+  color: var(--c-white);
+}
+
+.resume__duties {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.resume__duty-group {
+  padding: 20px;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-top: 2px solid var(--c-cyan);
+  border-radius: 0 0 8px 8px;
+}
+
+.resume__duty-group:first-child {
+  grid-column: 1 / -1;
+  border-top-color: var(--c-green);
+}
+
+.resume__duties h4,
+.resume__earlier h4,
+.resume__subhead {
+  margin: 0 0 12px;
+  color: var(--c-green);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  font-weight: 600;
+}
+
+.resume ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.resume li {
+  margin-bottom: 8px;
+  line-height: 1.55;
+}
+
+.resume li:last-child {
+  margin-bottom: 0;
+}
+
+.resume__earlier {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--c-border);
+}
+
+/* 03 — Technical Expertise Specification Matrix (No pill soup) */
+.resume__expertise {
+  margin: 0;
+  border-top: 1px solid var(--c-border-strong);
+}
+
+.resume__expertise-row {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 24px;
+  align-items: baseline;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.resume__expertise-domain {
+  color: var(--c-green);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  font-weight: 600;
+}
+
+.resume__expertise-items {
+  margin: 0;
+}
+
+.resume__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resume__tags li {
+  position: relative;
+  margin: 0;
+  padding: 4px 8px;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 4px;
+  color: var(--c-white);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+}
+
+/* 04 — Education, Certifications & Languages */
+.resume__split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.resume__panel-col {
+  padding: 24px;
+  background: var(--c-surface);
+  color: var(--c-white);
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+}
+
+.resume__edu,
+.resume__certs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.resume__edu li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 0 16px;
+  padding: 0 0 16px;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.resume__edu li:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.resume__certs li {
+  margin: 0 0 12px;
+  padding-left: 16px;
+  position: relative;
+}
+
+.resume__certs li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  color: var(--c-cyan);
+}
+
+.resume__edu-school {
+  color: var(--c-white);
+  font-weight: 600;
+}
+
+.resume__edu-credential {
+  color: var(--c-cyan);
+}
+
+.resume__langs-block {
+  padding-top: 20px;
+  border-top: 1px solid var(--c-border);
+}
+
+.resume__langs {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.resume__lang {
+  padding: 12px 16px;
+  background: var(--c-surface-soft);
+  border: 1px solid var(--c-border);
+  border-radius: 6px;
+}
+
+.resume__lang dt {
+  color: var(--c-white);
+  font-weight: 600;
+}
+
+.resume__lang dd {
+  margin: 4px 0 0;
+  color: var(--c-slate);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+}
+
+/* 05 — Contact Close */
+.resume__close {
+  padding-bottom: 16px;
+}
+
+.resume__close-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px 32px;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-strong);
+  border-left: 2px solid var(--c-green);
+  border-radius: 0 8px 8px 0;
+}
+
+@media (max-width: 860px) {
+  .resume {
+    padding: 8px 16px 48px;
+  }
+
+  .resume__nav {
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .resume__hero-meta {
+    align-items: flex-start;
+  }
+
+  .resume__hero-grid,
+  .resume__role-block,
+  .resume__duties,
+  .resume__expertise-row,
+  .resume__split,
+  .resume__langs {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .confluence {
+    grid-template-columns: 1fr;
+  }
+
+  .confluence__stage {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .confluence__streams {
+    position: static;
+    width: auto;
+    gap: 8px;
+  }
+
+  .confluence__stream {
+    width: calc(100% - 28px);
+  }
+
+  .confluence__output {
+    position: static;
+    transform: none;
+    width: auto;
+  }
+}
+
+@media print {
+  body:has(.resume) .topbar,
+  body:has(.resume) .explorer,
+  body:has(.resume) .terminal,
+  body:has(.resume) .terminal-fab,
+  body:has(.resume) .editor__tabs,
+  body:has(.resume) .editor__path,
+  body:has(.resume) .workbench::before {
+    display: none !important;
+  }
+
+  body:has(.resume) .workbench,
+  body:has(.resume) .workbench__main,
+  body:has(.resume) .main-area,
+  body:has(.resume) .editor,
+  body:has(.resume) .editor__body {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: var(--c-print-bg) !important;
+  }
+
+  .resume {
+    max-width: none;
+    padding: 0;
+    color: var(--c-print-ink);
+    background: var(--c-print-bg);
+  }
+
+  .resume__nav,
+  .resume__actions,
+  .confluence__stage,
+  .confluence__panel,
+  .confluence__controls,
+  .resume__index {
+    display: none !important;
+  }
+
+  .resume__name,
+  .resume__h2,
+  .resume__company,
+  .resume__edu-school,
+  .resume li,
+  .resume p,
+  .resume__lang dt {
+    color: var(--c-print-ink);
+  }
+
+  .resume__role,
+  .resume__title,
+  .resume__edu-credential,
+  .resume__duties h4,
+  .resume__earlier h4,
+  .resume__subhead,
+  .resume__expertise-domain {
+    color: var(--c-print-ink-2);
+  }
+
+  .resume__location,
+  .resume__period,
+  .resume__place,
+  .resume__lede,
+  .resume__lang dd {
+    color: var(--c-print-muted);
+  }
+
+  .resume__hero,
+  .resume__earlier,
+  .resume__timeline,
+  .resume__role-block,
+  .resume__duty-group,
+  .resume__expertise,
+  .resume__expertise-row,
+  .resume__panel-col,
+  .resume__lang,
+  .resume__tags li {
+    background: transparent;
+    border-color: var(--c-print-rule);
+  }
+
+  .confluence__print {
+    display: block;
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .confluence__print li {
+    margin-bottom: 8px;
+  }
+
+  .resume__role-block,
+  .resume__section {
+    break-inside: avoid;
+  }
+}

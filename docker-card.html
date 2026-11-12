@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Docker Service Card — valheim</title>
+  <style>
+    :root {
+      --bg: #050a0e;
+      --panel: #071119;
+      --border: #00ffff;
+      --cyan: #00ffff;
+      --green: #00ff41;
+      --muted: #5f7a8f;
+      --text: #dce5f0;
+
+      --mono: "Fira Code", "Courier New", Courier, monospace;
+
+      --radius: 8px;
+      --glow-inner: inset 0 0 16px rgba(0, 255, 255, 0.08);
+      --glow-cyan: 0 0 14px rgba(0, 255, 255, 0.35), 0 0 28px rgba(0, 255, 255, 0.15);
+      --glow-green: 0 0 14px rgba(0, 255, 65, 0.55);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.4;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    /* Card container */
+    .card {
+      width: 100%;
+      max-width: 640px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow:
+        var(--glow-inner),
+        var(--glow-cyan);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 420px;
+    }
+
+    /* Header */
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(7, 17, 25, 0.6);
+    }
+
+    .icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: var(--glow-cyan);
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .icon::after {
+      content: "";
+      position: absolute;
+      inset: 2px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 255, 255, 0.35);
+    }
+
+    .name {
+      flex: 1;
+      text-align: center;
+      color: var(--cyan);
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: var(--glow-green);
+      flex-shrink: 0;
+      animation: pulse 2.6s ease-in-out infinite;
+    }
+
+    /* Body */
+    .card-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      flex: 1;
+      min-height: 0;
+    }
+
+    /* Left column — data */
+    .data-col {
+      display: flex;
+      flex-direction: column;
+      padding: 14px;
+      border-right: 1px solid var(--border);
+      background: rgba(7, 17, 25, 0.4);
+    }
+
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      font-size: 12px;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(0, 255, 255, 0.06);
+    }
+
+    .metric:last-child {
+      border-bottom: none;
+    }
+
+    .metric .k {
+      color: var(--muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-shadow: none;
+    }
+
+    .metric .v {
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 0 6px rgba(220, 229, 240, 0.3);
+    }
+
+    /* Right column — charts */
+    .charts-col {
+      display: flex;
+      flex-direction: column;
+      padding: 14px;
+      background: rgba(7, 17, 25, 0.2);
+    }
+
+    .chart-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 0;
+    }
+
+    .chart-label {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 2px;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Footer */
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      padding: 10px 14px;
+      border-top: 1px solid var(--border);
+      font-size: 11.5px;
+      color: var(--muted);
+      background: rgba(7, 17, 25, 0.6);
+    }
+
+    .card-footer .id {
+      color: var(--cyan);
+    }
+
+    .card-footer .up {
+      color: var(--cyan);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+    }
+
+    /* Animations */
+    @keyframes pulse {
+      0%,
+      100% {
+        opacity: 1;
+        box-shadow: var(--glow-green);
+      }
+      50% {
+        opacity: 0.75;
+        box-shadow: 0 0 18px rgba(0, 255, 65, 0.9);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .card {
+        height: auto;
+        min-height: 420px;
+      }
+
+      .card-body {
+        grid-template-columns: 1fr;
+      }
+
+      .data-col {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .charts-col {
+        border-top: 1px solid var(--border);
+      }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .dot {
+        animation: none;
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <article class="card" role="region" aria-label="Docker container valheim">
+    <header class="card-header">
+      <span class="icon" aria-hidden="true"></span>
+      <span class="name">valheim</span>
+      <div class="status" aria-label="valheim status UP">
+        <span class="dot" aria-hidden="true"></span>
+        UP
+      </div>
+    </header>
+
+    <div class="card-body">
+      <div class="data-col">
+        <div class="metric">
+          <span class="k">cpu</span>
+          <span class="v">11.5 %</span>
+        </div>
+        <div class="metric">
+          <span class="k">ram</span>
+          <span class="v">3878 MB</span>
+        </div>
+        <div class="metric">
+          <span class="k">disk</span>
+          <span class="v">11 GB</span>
+        </div>
+        <div class="metric">
+          <span class="k">net</span>
+          <span class="v">0.0 MB/s</span>
+        </div>
+      </div>
+
+      <div class="charts-col">
+        <div class="chart-wrap">
+          <div class="chart-label">cpu avg</div>
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img" aria-label="CPU average usage history">
+            <defs>
+              <linearGradient id="grad-cpu" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#00ffff" stop-opacity="0.30" />
+                <stop offset="100%" stop-color="#00ffff" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+            <polygon
+              points="0,90 12,88 25,85 37,82 50,80 62,77 75,74 87,71 100,68 100,100 0,100"
+              fill="url(#grad-cpu)"
+            />
+            <polyline
+              points="0,90 12,88 25,85 37,82 50,80 62,77 75,74 87,71 100,68"
+              fill="none"
+              stroke="#00ffff"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+
+        <div class="chart-wrap">
+          <div class="chart-label">ram avg</div>
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img" aria-label="RAM average usage history">
+            <defs>
+              <linearGradient id="grad-ram" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#00ffff" stop-opacity="0.30" />
+                <stop offset="100%" stop-color="#00ffff" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+            <polygon
+              points="0,60 12,64 25,68 37,62 50,58 62,54 75,50 87,46 100,42 100,100 0,100"
+              fill="url(#grad-ram)"
+            />
+            <polyline
+              points="0,60 12,64 25,68 37,62 50,58 62,54 75,50 87,46 100,42"
+              fill="none"
+              stroke="#00ffff"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <footer class="card-footer">
+      <span class="id">id: 7056acc7306e</span>
+      <span class="up">up 22 days 10 hours</span>
+    </footer>
+  </article>
+</body>
+</html>

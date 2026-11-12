@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Technologies Confluencing</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#090d13;color:#e8edf2;font-family:Inter,system-ui,sans-serif}.page{min-height:100vh;padding:34px clamp(18px,4vw,64px) 24px;display:flex;flex-direction:column}header,footer{width:100%;max-width:1500px;margin:auto;display:flex;justify-content:space-between;gap:20px}header{align-items:flex-start}.eyebrow,.meta,.tag,.caption,footer,button{font:10px ui-monospace,monospace;letter-spacing:.11em;text-transform:uppercase}.eyebrow{color:#91a1b1;margin-bottom:13px}h1{font-size:clamp(27px,3.5vw,46px);font-weight:450;letter-spacing:-.045em;line-height:1.05;margin:0}h1 span{color:#8298aa}.meta{color:#657483;text-align:right;line-height:1.8}.stage{position:relative;width:100%;max-width:1500px;height:calc(100vh - 180px);min-height:570px;max-height:900px;margin:8px auto 0}canvas{position:absolute;inset:0;width:100%;height:100%}.labels{position:absolute;inset:0;pointer-events:none}.tag{position:absolute;color:#c2d0da;font-size:10px;text-shadow:0 1px 15px #090d13,0 0 22px #090d13}.tag small{display:block;color:#687b8a;font-size:8px;margin-top:5px;letter-spacing:.08em}.ai{left:14%;top:24%}.data{left:45%;top:8%}.software{right:8%;top:32%}.infra{left:19%;bottom:17%}.auto{right:20%;bottom:11%}.caption{position:absolute;right:0;bottom:8px;color:#91a0ad;text-transform:none;letter-spacing:.08em}.legend{position:absolute;left:0;bottom:8px;color:#62717f;font:9px ui-monospace,monospace}footer{align-items:center;color:#62717f;font-size:9px;margin-top:4px}button{background:none;color:#9baab7;border:1px solid #34414d;padding:8px 11px;cursor:pointer;border-radius:3px}button:hover{border-color:#9bb5c7;color:#fff}.controls{display:flex;gap:8px}@media(max-width:700px){.page{padding:24px 16px 20px}header{display:block}.meta{text-align:left;margin-top:12px}.stage{height:680px;min-height:680px}.tag{font-size:8px}.ai{left:3%;top:20%}.data{left:38%;top:8%}.software{right:1%;top:29%}.infra{left:2%;bottom:18%}.auto{right:2%;bottom:12%}.caption,.legend{bottom:32px;font-size:8px}footer{align-items:flex-end}}
+</style></head><body><div class="page">
+<header><div><div class="eyebrow">A map of connected disciplines / 01</div><h1>Technologies <span>confluencing</span><br>into a working system.</h1></div><div class="meta">GENERATIVE SYSTEMS<br>LIVE FIELD STUDY — 2026</div></header>
+<main class="stage" id="stage"><canvas id="field"></canvas><div class="labels">
+<div class="tag ai">AI<small>reasoning · models · agents</small></div><div class="tag data">DATA<small>signals · structure · knowledge</small></div><div class="tag software">SOFTWARE<small>interfaces · systems · APIs</small></div><div class="tag infra">INFRASTRUCTURE<small>compute · networks · runtime</small></div><div class="tag auto">AUTOMATION<small>orchestration · workflows</small></div>
+<div class="legend">FIELD LINES / RELATIONSHIPS / EMERGING PATTERNS</div><div class="caption">turn ideas into working systems</div></div></main>
+<footer><span>Move across the field to influence the currents</span><div class="controls"><button id="toggle">Pause field</button><button id="regen">Regenerate</button></div></footer></div>
+<script>
+(()=>{
+const c=document.querySelector('canvas'),ctx=c.getContext('2d'),stage=document.getElementById('stage');
+let w=0,h=0,d=1,t=0,raf=0,running=!matchMedia('(prefers-reduced-motion: reduce)').matches,pointer={x:-999,y:-999,on:false};
+const src=[
+  {x:.14,y:.24,s:1.5,sign: 1,col:'83,202,225',p:.4},
+  {x:.45,y:.08,s:1.4,sign:-1,col:'116,159,226',p:1.8},
+  {x:.92,y:.32,s:1.4,sign: 1,col:'163,145,221',p:3.1},
+  {x:.19,y:.83,s:1.5,sign:-1,col:'83,181,172',p:4.3},
+  {x:.80,y:.89,s:1.3,sign: 1,col:'132,185,205',p:5.5},
+];
+// value noise (2 octaves)
+function hash2(x,y){const s=Math.sin(x*127.1+y*311.7)*43758.5453123;return s-Math.floor(s)}
+function smooth(t){return t*t*(3-2*t)}
+function vnoise(x,y){const ix=Math.floor(x),iy=Math.floor(y),fx=x-ix,fy=y-iy;const a=hash2(ix,iy),b=hash2(ix+1,iy),cc=hash2(ix,iy+1),dd=hash2(ix+1,iy+1);const u=smooth(fx),v=smooth(fy);return a+(b-a)*u+(cc-a)*v+(a-b-cc+dd)*u*v}
+function fbm(x,y){return vnoise(x,y)*.62+vnoise(x*2.13,y*2.13)*.38}
+
+const CORE={x:.5,y:.5};
+function field(x,y,phase){
+  const cx=CORE.x*w,cy=CORE.y*h,minDim=Math.min(w,h);
+  let vx=0,vy=0;
+  // galaxy confluence: differential rotation (spiral arms) + accretion (inward)
+  { const dx=x-cx,dy=y-cy,r=Math.hypot(dx,dy)+30;
+    const spin=2.5/(1+r/(minDim*.32));
+    vx+=(-dy/r)*spin; vy+=(dx/r)*spin;       // orbit
+    vx+=(-dx/r)*.72;   vy+=(-dy/r)*.72;       // accrete
+  }
+  // five discipline vortices — local swirls that bend the spiral
+  for(const s of src){
+    const dx=x-s.x*w,dy=y-s.y*h,dist=Math.hypot(dx,dy)+26;
+    const inf=Math.exp(-dist/(minDim*.42));
+    const v=s.s*inf*s.sign;
+    vx+=(-dy/dist)*v; vy+=(dx/dist)*v;
+  }
+  // pointer influence
+  if(pointer.on){const dx=x-pointer.x,dy=y-pointer.y,dist=Math.hypot(dx,dy)+20;
+    vx+=Math.exp(-dist/140)*(-dy/dist)*1.6; vy+=Math.exp(-dist/140)*(dx/dist)*1.6;}
+  // gentle turbulence
+  vx+=(fbm(x*.0025+61,y*.0025)-.5)*1.1; vy+=(fbm(x*.0025,y*.0025+61)-.5)*1.1;
+  return {x:vx,y:vy};
+}
+function resize(){const r=stage.getBoundingClientRect();w=r.width;h=r.height;d=Math.min(devicePixelRatio||1,2);c.width=w*d;c.height=h*d;ctx.setTransform(d,0,0,d,0,0);draw()}
+function trace(sx,sy,id){
+  const coreR=Math.min(w,h)*.055;
+  ctx.beginPath();ctx.moveTo(sx,sy);
+  let x=sx,y=sy;
+  for(let k=0;k<240;k++){
+    const v=field(x,y,t+id*.0004),sp=Math.hypot(v.x,v.y)||1;
+    x+=v.x/sp*4;y+=v.y/sp*4;ctx.lineTo(x,y);
+    if(Math.hypot(x-CORE.x*w,y-CORE.y*h)<coreR)break;
+    if(x<-24||x>w+24||y<-24||y>h+24)break;
+  }
+  ctx.stroke();
+}
+function draw(){
+  if(!w)return;
+  ctx.clearRect(0,0,w,h);
+  // faint dot grid
+  ctx.fillStyle='rgba(145,175,198,.16)';
+  for(let y=18;y<h;y+=34)for(let x=18;x<w;x+=34)ctx.fillRect(x,y,.7,.7);
+  // streamlines: from the perimeter + from each discipline
+  ctx.lineWidth=.62;
+  const nEdge=Math.floor(w/9), nArm=16, total=src.length*nArm + nEdge*4;
+  for(let i=0;i<total;i++){
+    let sx,sy,seed;
+    if(i<nEdge){sx=-6;sy=(i+.5)/nEdge*h;seed=i}
+    else if(i<nEdge*2){sx=w+6;sy=(i-nEdge+.5)/nEdge*h;seed=i}
+    else if(i<nEdge*3){sx=(i-nEdge*2+.5)/nEdge*w;sy=-6;seed=i}
+    else if(i<nEdge*4){sx=(i-nEdge*3+.5)/nEdge*w;sy=h+6;seed=i}
+    else{const s=src[Math.floor((i-nEdge*4)/nArm)],a=((i-nEdge*4)%nArm)/nArm*Math.PI*2;sx=s.x*w+Math.cos(a)*12;sy=s.y*h+Math.sin(a)*12;seed=i}
+    const c=i%3===0?'111,190,213':i%3===1?'124,157,220':'151,157,202';
+    ctx.strokeStyle=`rgba(${c},${.08+(i%7)*.012})`;
+    ctx.lineWidth=i%9===0?1.05:.62;
+    trace(sx,sy,seed);
+  }
+  // core glow — the dense confluence
+  {const cx=CORE.x*w,cy=CORE.y*h,r=Math.min(w,h)*.30,g=ctx.createRadialGradient(cx,cy,0,cx,cy,r);
+   g.addColorStop(0,'rgba(198,226,238,.16)');g.addColorStop(.35,'rgba(120,190,220,.06)');g.addColorStop(1,'rgba(120,190,220,0)');
+   ctx.fillStyle=g;ctx.fillRect(cx-r,cy-r,r*2,r*2);}
+  // discipline nodes + faint connectors
+  src.forEach(s=>{let x=s.x*w,y=s.y*h,g=ctx.createRadialGradient(x,y,0,x,y,90);g.addColorStop(0,`rgba(${s.col},.14)`);g.addColorStop(1,`rgba(${s.col},0)`);ctx.fillStyle=g;ctx.fillRect(x-90,y-90,180,180);ctx.beginPath();ctx.arc(x,y,2.2,0,7);ctx.fillStyle=`rgba(${s.col},.9)`;ctx.fill()});
+  for(let i=0;i<src.length;i++)for(let j=i+1;j<src.length;j++){const a=src[i],b=src[j];ctx.beginPath();ctx.moveTo(a.x*w,a.y*h);ctx.quadraticCurveTo(CORE.x*w,CORE.y*h,b.x*w,b.y*h);ctx.strokeStyle='rgba(157,190,211,.07)';ctx.lineWidth=.6;ctx.stroke()}
+}
+function loop(){if(!running)return;t+=.035;draw();raf=requestAnimationFrame(loop)}
+function play(){cancelAnimationFrame(raf);if(running)raf=requestAnimationFrame(loop)}
+c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();pointer={x:e.clientX-r.left,y:e.clientY-r.top,on:true};if(!running)draw()});
+c.addEventListener('pointerleave',()=>{pointer.on=false;if(!running)draw()});
+document.getElementById('toggle').onclick=e=>{running=!running;e.target.textContent=running?'Pause field':'Resume field';play()};
+document.getElementById('regen').onclick=()=>{src.forEach(s=>{s.p+=.7;s.sign=-s.sign});draw()};
+new ResizeObserver(resize).observe(stage);resize();play()})();
+</script></body></html>
